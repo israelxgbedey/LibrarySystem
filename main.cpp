@@ -343,6 +343,7 @@ void return_book(int roll) {
     cout << "Book returned.\n";
 }
 
+// Display users sorted by roll(id) number
 
 void display_sorted()
  {
@@ -434,6 +435,7 @@ void edit_book()
         cout << "Book not found.\n";
         return;
     }
+    // Get new details
 
     cout << "New title: ";
     cin.ignore();
@@ -450,6 +452,8 @@ void view_books() {
         }
     }
 }
+
+// Search books by different criteria
 
 void search_books() {
     int option;
@@ -495,6 +499,8 @@ void search_books() {
     }
 }
 
+// Save all data to files
+
 void save_data() {
     ofstream fs("users.txt"), fb("books.txt");
 
@@ -511,6 +517,7 @@ void save_data() {
     }
 }
 
+// Load book data
 
 void load_data() {
     ifstream fs("users.txt"), fb("books.txt");
@@ -534,6 +541,8 @@ void load_data() {
             fb.ignore(); // Skip the space after borrower
             string combined;
             getline(fb, combined);
+                      // Split combined string into title and author
+
             size_t pipe_pos = combined.find('|');
             if (pipe_pos != string::npos) {
                 book_title[i] = combined.substr(0, pipe_pos);
