@@ -3,12 +3,10 @@
 #include <fstream>
 #include <cstring>
 #include "library.h"
-#include "main.cpp"  // This includes all your implementations
+#include "main.cpp"  
 
 
-// --- Paste your library system code here ---
-// (All the functions and global variables)
-// ------------------------------------------
+
 
 class LibraryTest : public ::testing::Test {
 protected:
