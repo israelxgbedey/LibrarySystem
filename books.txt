@@ -1,0 +1,7 @@
+5
+10001 1 0 0 0 -1 Sapiens:_A_Brief_History_of_Humankind|Yuval_Noah_Harari  
+10002 1 0 0 0 -1 Behave:_The_Biology_of_Humans_at_Our_Best_and_Worst|Robert_Sapolsky  
+10003 1 0 0 0 -1 Evolutionary_Perspectives_on_Modern_Issues|Unknown
+10004 1 0 0 0 -1 Empty_Planet:_The_Shock_of_Global_Population_Decline|Darrell_Bricker_and_John_Ibbitson  
+10005 1 0 0 0 -1 The_Body_Keeps_the_Score:_Brain,_Mind,_and_Body_in_the_Healing_of_Trauma|Bessel_van_der_Kolk  
+10006 1 0 0 0 -1 Medical_Apartheid:_The_Dark_History_of_Medical_Experimentation_on_Black_Americans_from_Colonial_Times_to_the_Present|Harriet_A._Washington
