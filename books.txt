@@ -5,3 +5,8 @@
 10004 1 0 0 0 -1 Empty_Planet:_The_Shock_of_Global_Population_Decline|Darrell_Bricker_and_John_Ibbitson  
 10005 1 0 0 0 -1 The_Body_Keeps_the_Score:_Brain,_Mind,_and_Body_in_the_Healing_of_Trauma|Bessel_van_der_Kolk  
 10006 1 0 0 0 -1 Medical_Apartheid:_The_Dark_History_of_Medical_Experimentation_on_Black_Americans_from_Colonial_Times_to_the_Present|Harriet_A._Washington
+10007 1 0 0 0 -1 DOOM: The Novel Series
+10008 1 0 0 0 -1 Why We Die: The New Science of Aging and the Quest for Immortality|Venki Ramakrishnan
+10009 1 0 0 0 -1 The Ancient Warrior: 3000 BCE – 500 CE|Martin J. Dougherty
+10010 1 0 0 0 -1 The Power and Paradox of Physical Attractiveness|Gordon L. Patzer
+10011 1 0 0 0 -1 The Obesity Code|Dr. Jason Fung
