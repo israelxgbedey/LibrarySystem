@@ -4,7 +4,9 @@
 #include <iomanip>
 #include <limits>   
 #include <ios> 
-#include <string>  // Add this at the top
+#include <string> 
+#include <limits> 
+
 
 #include "library.h"
 
@@ -48,6 +50,24 @@ void create_account();
 
 #ifndef BUILD_TESTS
 
+
+template <typename T>
+void safe_input(T& var, const std::string& prompt) {
+    while (true) {
+        if (!prompt.empty()) std::cout << prompt;
+        std::cin >> var;
+
+        if (std::cin.fail()) {
+            std::cin.clear(); // clear error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // discard invalid input
+            std::cout << "Invalid input. Please try again.\n";
+        } else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clean leftover input
+            break;
+        }
+    }
+}
+
 int main() {
     load_data();
 
@@ -66,7 +86,7 @@ int main() {
                  << "4. View Available Books\n"
                  << "0. Exit\n"
                  << "Select an option: ";
-            cin >> option;
+                 safe_input(option, "Select an option: ");
 
             if (option == 0) {
                 save_data();
@@ -89,8 +109,7 @@ int main() {
                     break;
                 }
                 case 2: {  // User Login
-                    cout << "Enter your user ID (roll number): ";
-                    cin >> login_roll;
+                    safe_input(login_roll, "Enter your user ID (roll number): ");
                     int user_index = find_user(login_roll);
                     if (user_index != -1) {
                         logged_in = true;
@@ -143,7 +162,7 @@ int main() {
                      << "8. View User Balance\n"
                      << "9. Logout\n"
                      << "Select an option: ";
-                cin >> option;
+                     safe_input(option, "Select an option: ");
 
                 switch (option) {
                     case 1: add_book(); break;
@@ -155,8 +174,7 @@ int main() {
                     case 7: remove_user(); break;
                     case 8: {
                         int roll;
-                        cout << "Enter User roll number: ";
-                        cin >> roll;
+                        safe_input(roll, "Enter roll number (User ID): ");
                         display(roll);
                         break;
                     }
@@ -176,14 +194,13 @@ int main() {
                      << "4. Return Book\n"
                      << "5. Logout\n"
                      << "Select an option: ";
-                cin >> option;
+                     safe_input(option, "Select an option: ");
 
                 switch (option) {
                     case 1: display(login_roll); break;
                     case 2: {
                         double amount;
-                        cout << "Enter amount to deposit: $";
-                        cin >> amount;
+                        safe_input(amount, "Enter amount to deposit: $");
                         deposit_amount(login_roll, amount);
                         break;
                     }
@@ -204,14 +221,14 @@ int main() {
 #endif
 
 
+
 void create_account() {
     if (user_count >= MAX_USERS) {
         cout << "User limit reached.\n";
         return;
     }
     int roll;
-    cout << "Enter roll number (User ID): ";
-    cin >> roll;
+    safe_input(roll, "Enter roll number (User ID): ");
 
     if (find_user(roll) != -1) {
         cout << "Account with this User ID already exists.\n";
@@ -225,7 +242,7 @@ void create_account() {
 
     double initial_deposit;
     cout << "Initial deposit (minimum $50): $";
-    cin >> initial_deposit;
+    safe_input(initial_deposit, "Initial deposit (minimum $50): $");
 
     if (initial_deposit < 50) {
         cout << "Minimum deposit is $50.\n";
@@ -247,8 +264,7 @@ void create_account() {
 void remove_user() 
 {
     int roll; 
-    cout << "Enter user number to remove: ";
-    cin >> roll;
+    safe_input(roll, "Enter roll number (User ID): ");
     int index = find_user(roll);
     if (index == -1) 
     {
@@ -343,6 +359,7 @@ void return_book(int roll) {
     cout << "Book returned.\n";
 }
 
+// Display users sorted by roll(id) number
 
 void display_sorted()
  {
@@ -379,28 +396,32 @@ int find_book(int isbn)
     return -1;
 }
 
-void add_book() {
-    if (book_count >= MAX_BOOKS) {
-        cout << "Book limit reached.\n";
-        return;
-    }
+void add_book_logic(const std::string& title, const std::string& author, int isbn) {
+    if (book_count >= MAX_BOOKS) return;
+    if (find_book(isbn) != -1) return; // ISBN must be unique
 
-    cout << "Enter title: ";
-    cin.ignore();
-    getline(cin, book_title[book_count]);
-    cout << "Enter author: ";
-    getline(cin, book_author[book_count]);
-    cout << "Enter ISBN: ";
-    cin >> book_isbn[book_count];
-
-    if (find_book(book_isbn[book_count]) != -1) {
-        cout << "ISBN already exists.\n";
-        return;
-    }
-
+    book_title[book_count] = title;
+    book_author[book_count] = author;
+    book_isbn[book_count] = isbn;
     book_available[book_count] = true;
     book_count++;
-    cout << "Book added.\n";
+}
+
+void add_book() {
+    std::string title, author;
+    int isbn;
+
+    std::cout << "Enter title: ";
+    std::getline(std::cin, title);
+
+    std::cout << "Enter author: ";
+    std::getline(std::cin, author);
+
+    std::cout << "Enter ISBN: ";
+    std::cin >> isbn;
+    std::cin.ignore();
+
+    add_book_logic(title, author, isbn); // Delegate to testable function
 }
 
 void remove_book() {
@@ -434,6 +455,7 @@ void edit_book()
         cout << "Book not found.\n";
         return;
     }
+    // Get new details
 
     cout << "New title: ";
     cin.ignore();
@@ -451,12 +473,14 @@ void view_books() {
     }
 }
 
+// Search books by different criteria
+
 void search_books() {
     int option;
     string keyword;
     int search_isbn;
     cout << "Search by: 1. Title  2. Author  3. ISBN\n";
-    cin >> option;
+    safe_input(option, "Select an option: ");
 
     bool found = false;
 
@@ -495,6 +519,8 @@ void search_books() {
     }
 }
 
+// Save all data to files
+
 void save_data() {
     ofstream fs("users.txt"), fb("books.txt");
 
@@ -511,6 +537,7 @@ void save_data() {
     }
 }
 
+// Load book data
 
 void load_data() {
     ifstream fs("users.txt"), fb("books.txt");
@@ -534,6 +561,8 @@ void load_data() {
             fb.ignore(); // Skip the space after borrower
             string combined;
             getline(fb, combined);
+                      // Split combined string into title and author
+
             size_t pipe_pos = combined.find('|');
             if (pipe_pos != string::npos) {
                 book_title[i] = combined.substr(0, pipe_pos);
